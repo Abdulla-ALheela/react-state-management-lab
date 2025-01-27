@@ -1,11 +1,11 @@
-import "./App.css"
-import { useState } from "react"
+import "./App.css";
+import { useState } from "react";
 
 const App = () => {
-let totalStrength 
-let totalAgility
-  const [team, setTeam] = useState([])
-  const [money, setMoney] = useState(100)
+  let totalStrength;
+  let totalAgility;
+  const [team, setTeam] = useState([]);
+  const [money, setMoney] = useState(100);
   const [zombieFighters, setZombieFighters] = useState([
     {
       id: 1,
@@ -88,37 +88,51 @@ let totalAgility
       img: 'https://pages.git.generalassemb.ly/modular-curriculum-all-courses/react-state-management-lab/assets/e41f26.png',
     },
   ]
-  )
+  );
 
+  const handleRemoveFighter = (fighter) => {
+ 
+    setZombieFighters([...zombieFighters, fighter]);
+
+let index = team.findIndex(teamFighter => teamFighter.id === fighter.id);
+
+  team.splice(index, 1);
   
+  setMoney(money+fighter.price)  ;
+
+  };
 
   const handleAddFighter = (fighter) => {
     
-    if( money > fighter.price ){
-      setTeam([...team, fighter])
+    if( money >= fighter.price ){
+     
+   
+      
+      setTeam([...team, fighter]);
 let index = zombieFighters.findIndex(zombieFighter => zombieFighter.id === fighter.id);
 
   zombieFighters.splice(index, 1);
 
-   setMoney(money-fighter.price)
+   setMoney(money-fighter.price);
   
 }else{
+
   console.log("Not enough money");
   
+  
 }
-  }
+  };
 
-  totalStrength = 0
-  totalAgility = 0
+  totalStrength = 0;
+  totalAgility = 0;
   team.map((fighter)=> {
     totalAgility+=fighter.agility;
    totalStrength+=fighter.strength;
   
-})
+});
   return (
     <>
     <h1>Zombie Fighters</h1>
-
     <b><h3>Money: {money}</h3></b>
     <b><h3>Team Strenght: {team.length === 0 ? totalStrength=0:totalStrength} </h3></b>
     <b><h3>Team Agility:  {team.length === 0 ? totalAgility=0:totalAgility} </h3></b>
@@ -141,6 +155,9 @@ let index = zombieFighters.findIndex(zombieFighter => zombieFighter.id === fight
         <br></br>
         <br></br>
         Agility: {fighter.agility}
+        <br></br>
+        <br></br>
+        <button onClick={()=> handleRemoveFighter(fighter)}>Remove</button>
         </li>
       ))}
     </ul> : <p>Pick some team members!</p>
